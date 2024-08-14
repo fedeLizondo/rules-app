@@ -11,7 +11,7 @@ class RuleController extends Controller
      */
     public function index()
     {
-        return inertia('Rule/index', []);
+        return inertia('Path/index', []);
     }
 
     /**
@@ -35,7 +35,7 @@ class RuleController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return inertia('Rule/index', ["id" => $id]);
     }
 
     /**
