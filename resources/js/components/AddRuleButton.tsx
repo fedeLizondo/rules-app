@@ -11,7 +11,6 @@ import InputError from '@/Components/InputError';
 import { ComboBox } from './ComboBox';
 
 
-
 const Place = [
     {
         value: "BODY",
@@ -67,6 +66,7 @@ function AddRuleButton({ path }) {
 
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
         post(route('rules.store'), {
             onSuccess: () => {

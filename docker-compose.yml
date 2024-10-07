@@ -100,6 +100,43 @@ services:
             - '/dev/shm:/dev/shm'
         networks:
             - sail
+    kafka:
+        image: 'bitnami/kafka:3.5.0'
+        container_name: test-mq
+        environment:
+            - KAFKA_ENABLE_KRAFT=yes
+            - KAFKA_CFG_NODE_ID=1
+            - KAFKA_CFG_PROCESS_ROLES=broker,controller
+            - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+            - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+            - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+            - KAFKA_BROKER_ID=1
+            - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+            - ALLOW_PLAINTEXT_LISTENER=yes
+        ports:
+            - '9092:9092'
+        networks:
+            - sail
+    python-app:
+        build:
+            context: ./request-app  # Ruta donde está tu Dockerfile y código de la app Python
+            dockerfile: Dockerfile          # Dockerfile para la app Python
+        image: python-request-app          # Nombre de la imagen
+        ports:
+            - '8000:8000'                  # Puerto expuesto por la app Python
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        environment:
+            - ENV_KAFKA_URL=kafka      # Variables de entorno si son necesarias
+            - ENV_KAFKA_PORT=9092
+        volumes:
+            - './request-app:/app'   # Montar la carpeta de la app
+        networks:
+            - sail
+        depends_on:
+            - mysql                         # Si tu app depende de MySQL o cualquier otro servicio
+            - kafka
 networks:
     sail:
         driver: bridge

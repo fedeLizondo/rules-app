@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rules', function (Blueprint $table) {
+        Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->string("path_id");
-            $table->string("place");// Param, Query, Body, Header
-            $table->string("type"); // Regex, Range, WhiteList, BlackList
-            $table->string("key"); // Name
-            $table->string("value"); // Permited Values
+            $table->string('ip');
+            $table->string('mac');
+            $table->string('hostname');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rules');
+        Schema::dropIfExists('devices');
     }
 };

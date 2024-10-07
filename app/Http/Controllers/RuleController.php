@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RuleRequest;
+use App\Models\Rule;
 use Illuminate\Http\Request;
 
 class RuleController extends Controller
@@ -19,15 +21,17 @@ class RuleController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RuleRequest $request)
     {
-        //
+        dd($request);
+        $rule = Rule::create($request->validated());
+        return;//  inertia('Rule/index', ["id" => $rule->path_id, "rules" => Rule::all()]);
     }
 
     /**

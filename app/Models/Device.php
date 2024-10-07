@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rule extends Model
+class Device extends Model
 {
     use HasFactory;
-    protected $fillable = ['path_id', 'place', 'type', 'key', 'value'];
+    protected $fillable = ['ip', 'mac', 'hostname'];
 }
